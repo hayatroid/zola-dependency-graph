@@ -5,7 +5,9 @@
 {% block content %}
   <h1>{{ section.title }}</h1>
 
-  {% include "graph.html" %}
+  {% if section.extra.graph %}
+    {% include "graph.html" %}
+  {% endif %}
 
   {{ section.content | safe }}
 {% endblock content %}
