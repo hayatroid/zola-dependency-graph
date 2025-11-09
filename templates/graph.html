@@ -1,6 +1,26 @@
 <pre class="mermaid">
-  graph LR
-  A --- B
-  B-->C[fa:fa-ban forbidden]
-  B-->D(fa:fa-spinner);
+  graph TD
+
+  subgraph {{ section.components | last }} [{{ section.title }}]
+    {# ノードを置く #}
+    {% for page in section.pages %}
+      {{ page.slug }}[{{ page.title }}]
+      click {{ page.slug }} href "{{ page.permalink | safe }}"
+    {% endfor %}
+
+    {# いま見ているノードを赤く #}
+    {% if page %}
+      class {{ page.slug }} target
+      classDef target fill:#ffecec,stroke:#db7093
+    {% endif %}
+
+    {# 辺を張る #}
+    {% for page in section.pages %}
+      {% for need in page.extra.needs %}
+        {# 存在しない slug を弾く #}
+        {% set need = get_page(path=section.relative_path | replace(from="_index.md", to=need~".md")) %}
+        {{ need.slug }} --> {{ page.slug }}
+      {% endfor %}
+    {% endfor %}
+  end
 </pre>

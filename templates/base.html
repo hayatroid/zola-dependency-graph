@@ -1,4 +1,5 @@
 {% set home = get_section(path="_index.md") %}
+{% if page %}{% set section = get_section(path=page.ancestors | last) %}{% endif %}
 
 <!DOCTYPE html>
 
